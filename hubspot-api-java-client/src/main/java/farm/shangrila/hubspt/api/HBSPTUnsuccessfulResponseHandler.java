@@ -15,7 +15,6 @@ public class HBSPTUnsuccessfulResponseHandler implements HttpUnsuccessfulRespons
 	private JsonFactory jsonFactory;
 
 	public HBSPTUnsuccessfulResponseHandler(JsonFactory jsonFactory) {
-		// TODO Auto-generated constructor stub
 		this.jsonFactory = jsonFactory;
 	}
 
@@ -23,7 +22,9 @@ public class HBSPTUnsuccessfulResponseHandler implements HttpUnsuccessfulRespons
 			throws IOException {
 
 		String responseAsString = response.parseAsString();
-		log.warning(request.getUrl() + " generate HBSPTResponseException: " + responseAsString);
+		String logmessage = "";
+		logmessage += "\n" + request.getUrl() + " generate HBSPTResponseException: request:  " + request.getContent();
+		logmessage += "\n" + request.getUrl() + " generate HBSPTResponseException: response: " + responseAsString;
 
 		HBSPTJsonErrorResponse hbsptJsonErrorReponse = null;
 
@@ -38,7 +39,9 @@ public class HBSPTUnsuccessfulResponseHandler implements HttpUnsuccessfulRespons
 			hbsptJsonErrorReponse.setMessage(errorMessage);
 			hbsptJsonErrorReponse.setStatus(String.valueOf(response.getStatusCode()));
 		}
-
+		
+		logmessage += "\n" + hbsptJsonErrorReponse;
+		log.warning(logmessage);
 		throw new HBSPTResponseException(responseAsString, hbsptJsonErrorReponse);
 	}
 }
