@@ -1,28 +1,30 @@
 package farm.shangrila.hubspt.api;
 
+import java.io.IOException;
+
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient;
 import com.google.api.client.util.Preconditions;
 
-public class HBSPT extends AbstractGoogleJsonClient {
+public class HBSPTClient extends AbstractGoogleJsonClient {
 
 	public static final String DEFAULT_ROOT_URL = "https://api.hubapi.com";
 	public static final String DEFAULT_SERVICE_PATH = "";
 	public static final String DEFAULT_BASE_URL = DEFAULT_ROOT_URL + DEFAULT_SERVICE_PATH;
 
-	public HBSPT(com.google.api.client.http.HttpTransport transport, com.google.api.client.json.JsonFactory jsonFactory,
+	public HBSPTClient(com.google.api.client.http.HttpTransport transport, com.google.api.client.json.JsonFactory jsonFactory,
 			com.google.api.client.http.HttpRequestInitializer httpRequestInitializer) {
 		this(new Builder(transport, jsonFactory, httpRequestInitializer));
 	}
 
-	HBSPT(Builder builder) {
+	HBSPTClient(Builder builder) {
 		super(builder);
 	}
 
-	public Owners owners() {
-		return new Owners();
+	public OwnersClient ownersClient() {
+		return new OwnersClient();
 	}
 
-	public class Owners {
+	public class OwnersClient {
 
 		public Get get() throws java.io.IOException {
 			Get result = new Get();
@@ -34,12 +36,12 @@ public class HBSPT extends AbstractGoogleJsonClient {
 
 			private static final String REST_PATH = "owners/v2/owners/";
 
-			protected Get() {
-				super(HBSPT.this, "GET", REST_PATH, null, farm.shangrila.hbspt.api.model.Owners[].class);
-			}
-
 			@com.google.api.client.util.Key
 			private java.lang.String email;
+
+			protected Get() {
+				super(HBSPTClient.this, "GET", REST_PATH, null, farm.shangrila.hbspt.api.model.Owners[].class);
+			}
 
 			public java.lang.String getEmail() {
 				return email;
@@ -53,11 +55,11 @@ public class HBSPT extends AbstractGoogleJsonClient {
 
 	}
 
-	public Calendars calendars() {
-		return new Calendars();
+	public CalendarsClient calendarsClient() {
+		return new CalendarsClient();
 	}
 
-	public class Calendars {
+	public class CalendarsClient {
 
 		public Insert insert(farm.shangrila.hbspt.api.model.Calendars content) throws java.io.IOException {
 			Insert result = new Insert(content);
@@ -70,17 +72,17 @@ public class HBSPT extends AbstractGoogleJsonClient {
 			private static final String REST_PATH = "calendar/v1/events/task";
 
 			protected Insert(farm.shangrila.hbspt.api.model.Calendars content) {
-				super(HBSPT.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.Calendars.class);
+				super(HBSPTClient.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.Calendars.class);
 			}
 
 		}
 	}
 
-	public Contacts contacts() {
-		return new Contacts();
+	public ContactsClient contactsClient() {
+		return new ContactsClient();
 	}
 
-	public class Contacts {
+	public class ContactsClient {
 
 		public Update update(String contactId, farm.shangrila.hbspt.api.model.Contacts content) throws java.io.IOException {
 			Update result = new Update(contactId, content);
@@ -96,7 +98,7 @@ public class HBSPT extends AbstractGoogleJsonClient {
 			private static final String REST_PATH = "contacts/v1/contact/vid/{contactId}/profile";
 
 			protected Update(String contactId, farm.shangrila.hbspt.api.model.Contacts content) {
-				super(HBSPT.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.VoidResponse.class);
+				super(HBSPTClient.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.VoidResponse.class);
 				this.contactId = ((String) Preconditions.checkNotNull(contactId,
 						"Required parameter contactId must be specified."));
 			}
@@ -114,7 +116,7 @@ public class HBSPT extends AbstractGoogleJsonClient {
 			private static final String REST_PATH = "contacts/v1/contact";
 
 			protected Insert(farm.shangrila.hbspt.api.model.Contacts content) {
-				super(HBSPT.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.ContactsResponse.class);
+				super(HBSPTClient.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.ContactsResponse.class);
 			}
 
 		}
@@ -133,19 +135,46 @@ public class HBSPT extends AbstractGoogleJsonClient {
 			private java.lang.String contactId;
 
 			protected Get(String contactId) {
-				super(HBSPT.this, "GET", REST_PATH, null, farm.shangrila.hbspt.api.model.ContactsResponse.class);
-				this.contactId = ((String) Preconditions.checkNotNull(contactId,
-						"Required parameter dealId must be specified."));
+				super(HBSPTClient.this, "GET", REST_PATH, null, farm.shangrila.hbspt.api.model.ContactsResponse.class);
+				this.contactId = ((String) Preconditions.checkNotNull(contactId, "Required parameter contactId must be specified."));
 			}
 
 		}
 	}
+	
+	public ContactPropertiesClient contactsPropertiesClient() {
+		return new ContactPropertiesClient();
+	}
+	
+	public class ContactPropertiesClient {
+		
+		public Get get(String name) throws IOException {
+			Get request = new Get(name);
+			initialize(request);
+			return request;
+		}
+		
+		public class Get extends HBSPTRequest<farm.shangrila.hbspt.api.model.ContactPropertyOptionsResponse> {
 
-	public Deals deals() {
-		return new Deals();
+			private static final String REST_PATH = "/contacts/v2/properties/named/{name}";
+			
+			@com.google.api.client.util.Key
+			private java.lang.String name;
+			
+			protected Get(String name) {
+				super(HBSPTClient.this, "GET", REST_PATH, null, farm.shangrila.hbspt.api.model.ContactPropertyOptionsResponse.class);
+				this.name = ((String) Preconditions.checkNotNull(name, "Required parameter 'name' for the property must be specified."));
+			}
+			
+		}
+		
 	}
 
-	public class Deals {
+	public DealsClient dealsClient() {
+		return new DealsClient();
+	}
+
+	public class DealsClient {
 
 		public Update update(String dealId, farm.shangrila.hbspt.api.model.DealsUpdate content) throws java.io.IOException {
 			Update result = new Update(dealId, content);
@@ -161,7 +190,7 @@ public class HBSPT extends AbstractGoogleJsonClient {
 			private static final String REST_PATH = "deals/v1/deal/{dealId}";
 
 			protected Update(String dealId, farm.shangrila.hbspt.api.model.DealsUpdate content) {
-				super(HBSPT.this, "PUT", REST_PATH, content, farm.shangrila.hbspt.api.model.DealsResponse.class);
+				super(HBSPTClient.this, "PUT", REST_PATH, content, farm.shangrila.hbspt.api.model.DealsResponse.class);
 				this.dealId = ((String) Preconditions.checkNotNull(dealId,
 						"Required parameter contactId must be specified."));
 			}
@@ -179,7 +208,7 @@ public class HBSPT extends AbstractGoogleJsonClient {
 			private static final String REST_PATH = "deals/v1/deal";
 
 			protected Insert(farm.shangrila.hbspt.api.model.Deals content) {
-				super(HBSPT.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.DealsResponse.class);
+				super(HBSPTClient.this, "POST", REST_PATH, content, farm.shangrila.hbspt.api.model.DealsResponse.class);
 			}
 
 		}
@@ -198,7 +227,7 @@ public class HBSPT extends AbstractGoogleJsonClient {
 			private java.lang.String dealId;
 
 			protected Get(String dealId) {
-				super(HBSPT.this, "GET", REST_PATH, null, farm.shangrila.hbspt.api.model.DealsResponse.class);
+				super(HBSPTClient.this, "GET", REST_PATH, null, farm.shangrila.hbspt.api.model.DealsResponse.class);
 				this.dealId = ((String) Preconditions.checkNotNull(dealId,
 						"Required parameter dealId must be specified."));
 			}
@@ -206,17 +235,18 @@ public class HBSPT extends AbstractGoogleJsonClient {
 		}
 	}
 
-	public static final class Builder
-			extends com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient.Builder {
-		public Builder(com.google.api.client.http.HttpTransport transport,
-				com.google.api.client.json.JsonFactory jsonFactory,
-				com.google.api.client.http.HttpRequestInitializer httpRequestInitializer) {
+	public static final class Builder	extends com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient.Builder {
+		public Builder(
+				  com.google.api.client.http.HttpTransport transport
+				,	com.google.api.client.json.JsonFactory jsonFactory
+				,	com.google.api.client.http.HttpRequestInitializer httpRequestInitializer 
+				) {
 			super(transport, jsonFactory, DEFAULT_ROOT_URL, DEFAULT_SERVICE_PATH, httpRequestInitializer, false);
 		}
 
 		@Override
-		public HBSPT build() {
-			return new HBSPT(this);
+		public HBSPTClient build() {
+			return new HBSPTClient(this);
 		}
 	}
 }
