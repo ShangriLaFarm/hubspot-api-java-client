@@ -1,4 +1,4 @@
-package farm.shangrila.hubspt.api;
+package farm.shangrila.hubspot.api;
 
 import com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient;
 

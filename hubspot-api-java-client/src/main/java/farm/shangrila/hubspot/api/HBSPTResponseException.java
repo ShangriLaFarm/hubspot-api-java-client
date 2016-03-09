@@ -1,4 +1,4 @@
-package farm.shangrila.hubspt.api;
+package farm.shangrila.hubspot.api;
 
 import java.io.IOException;
 

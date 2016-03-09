@@ -1,9 +1,9 @@
-package farm.shangrila.hbspt.api.model;
+package farm.shangrila.hubspot.api.model;
 
-public class ContactPropertyOptions {
-
+public abstract class DealsProperties {
+	
 	@com.google.api.client.util.Key
-	private String name;
+	protected String name;
 
 	public String getName() {
 		return name;
@@ -12,5 +12,5 @@ public class ContactPropertyOptions {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

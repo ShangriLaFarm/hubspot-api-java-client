@@ -1,4 +1,4 @@
-package farm.shangrila.hbspt.api.model;
+package farm.shangrila.hubspot.api.model;
 
 public class VoidResponse {
 	public VoidResponse() {

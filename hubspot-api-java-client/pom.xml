@@ -127,4 +127,8 @@
 			</plugin>
 		</plugins>
 	</build>
+	<organization>
+		<name>Shangri-La Farm</name>
+		<url>http://shangrila.farm</url>
+	</organization>
 </project>

@@ -1,4 +1,4 @@
-package farm.shangrila.hubspt.api;
+package farm.shangrila.hubspot.api;
 
 public class HBSPTJsonErrorResponse {
 	public HBSPTJsonErrorResponse() {
